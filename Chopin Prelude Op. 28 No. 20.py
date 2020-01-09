@@ -19,7 +19,6 @@ def ChopinPrelude20():
     piano_staff.append(upper_staff)
     piano_staff.append(lower_staff)
     score.append(piano_staff)
-    
     upper_measures = []
     lower_measures = copy.deepcopy(upper_measures)
     
@@ -38,64 +37,72 @@ def ChopinPrelude20():
     #voice_1_tuple1: contains notes for upper voice for first four upper measures.
     #voice_1_tuple_repeat1: bars 5-8 repeat themselves in bars 9-12, so only write these notes once for upper voice.
     #voice_1_tuple_repeat: Concatenate voice_1_tuple_repeat1 twice to create the entire repeated section bars 5-12.
-    #voice_1_tuple: Concatenate voice_1_tuple1 and voice_1_tuple_repeat to get just one tuple for entire upper measure third beat upper voice.
+    #voice_1_tuple: Concatenate voice_1_tuple1 and voice_1_tuple_repeat to get one tuple for entire upper measure third beat upper voice.
     #voice_2_tuple1: contains notes for lower voice for first four upper measures.
     #voice_2_tuple_repeat1: bars 5-8 repeat themselves in bars 9-12, so only write these notes once for lower voice.
     #voice_2_tuple_repeat: Concatenate voice_2_tuple_repeat1 twice to create the entire repeated section bars 5-12.
-    #voice_2_tuple: Concatenate voice_2_tuple1 and voice_2_tuple_repeat to get just one tuple for entire upper measure third beat lower voice.
+    #voice_2_tuple: Concatenate voice_2_tuple1 and voice_2_tuple_repeat to get one tuple for entire upper measure third beat lower voice.
     
     upper_tuple1 = (r"<g c' ef' g'>4 <af c' ef' af'>4 <ef g c' ef'>4",
                     r"<ef af c' ef'>4 <f af df' f'>4 <c ef af c'>4",
                     r"<d f b d'>4 <e g bf c' e'>4 <g c' ef'>4",
-                    r"<fs c' d'>4 <g b d' g'>4 <b d' g'>4")
+                    r"<fs c' d'>4 <g b d' g'>4 <b d' g'>4"
+                    )
     upper_tuple_repeat1 = (r"<ef' g' ef''>4 <ef' af' ef''>4 <d' g' d''>4",
                            r"<c' g' c''>4 <c' d' fs' d''>4 <b d' g'>4",
                            r"<c' g' c''>4 <af c' af'>4 <g c' ef'>4",
-                           r"<ef af c' ef'>4 <f af df' f'>4 <ef g c'>4")
+                           r"<ef af c' ef'>4 <f af df' f'>4 <ef g c'>4"
+                           )
     upper_tuple_repeat = upper_tuple_repeat1 + upper_tuple_repeat1
     upper_tuple = upper_tuple1 + upper_tuple_repeat
     lower_tuple1 = (r"<c c,>4 <f,, f,>4 <g,, g,>4 <c, g, c>4",
                     r"<af, af,,>4 <df, df,,>4 <ef, ef,,>4 <af, af,,>4",
                     r"<g, g,,>4 <c, c,,>4 <f, f,,>4 <c c,>4",
-                    r"<d a, d,>4 <g, g,,>4 <d, d,,>4 <g, g,,>4")
+                    r"<d a, d,>4 <g, g,,>4 <d, d,,>4 <g, g,,>4"
+                    )
     lower_tuple_repeat1 = (r"<c c,>4 <c c'>4 <b b,>4 <bf bf,>4",
                            r"<a a,>4 <af af,>4 <g g,>4 <f f,>4",
                            r"<ef ef,>4 <f f,>4 <b, b,,>4 <c c,>4",
-                           r"<af, af,,>4 <df, df,,>4 <g, g,,>4 <c, c,,>4")
+                           r"<af, af,,>4 <df, df,,>4 <g, g,,>4 <c, c,,>4"
+                           )
     lower_tuple_repeat = lower_tuple_repeat1 + lower_tuple_repeat1
     lower_tuple = lower_tuple1 + lower_tuple_repeat
     voice_1_tuple1 = (r"<ef' g'>8. <d' f'>16",
                       r"<c' ef'>8. <bf df'>16",
                       r"g'8. f'16",
-                      r"b'8. a'16")
+                      r"b'8. a'16"
+                      )
     voice_1_tuple_repeat1 = (r"<d' d''>4",
                              r"<g' b'>8. a'16",
                              r"g'8. f'16",
-                             r"ef'8. d'16")
+                             r"ef'8. d'16"
+                             )
     voice_1_tuple_repeat = voice_1_tuple_repeat1 + voice_1_tuple_repeat1
     voice_1_tuple = voice_1_tuple1 + voice_1_tuple_repeat
     voice_2_tuple1 = (r"<g b>4",
                       r"<df ef g>4",
                       r"<af c'>4",
-                      r"<c' d' fs'>4")
+                      r"<c' d' fs'>4"
+                      )
     voice_2_tuple_repeat1 = (r"af'8. fs'16",
                              r"d'8. c'16",
                              r"<g d'>4",
-                             r"<f g b>4")
+                             r"<f g b>4"
+                             )
     voice_2_tuple_repeat = voice_2_tuple_repeat1 + voice_2_tuple_repeat1
     voice_2_tuple = voice_2_tuple1 + voice_2_tuple_repeat
     
-    # Executing this while loop appends upper and lower measures to the piano staff at each iteration
-    # These measures are populated with the tuples defined above
-    # The upper and lower voices are treated separately; a container is created for the third beat, then is inserted into correct position in upper measures.
+    # Executing this while loop does the following:
+    # 1: Appends upper and lower measures to the piano staff at each iteration.
+    # 2: These measures are populated with the tuples defined above.
+    # 3: The upper and lower voices are treated separately; a container is created for the third beat,
+    # then is inserted into correct position in upper measures.
     i = 0
     while i < 12:
         upper_measures.append(abjad.Measure((4,4), []))
         lower_measures.append(abjad.Measure((4,4), []))
-        
         upper_measures[i].extend(upper_tuple[i])
         lower_measures[i].extend(lower_tuple[i])
-        
         voice_1 = abjad.Voice(voice_1_tuple[i])
         voice_2 = abjad.Voice(voice_2_tuple[i])
         literal_1 = abjad.LilyPondLiteral(r"\voiceOne")
@@ -170,8 +177,7 @@ def ChopinPrelude20():
     abjad.attach(accent, upper_measures[12][0])
     
     # Initialize the final lilypond file for formatting
-    sheetmusic_file = abjad.LilyPondFile.new(music = score, global_staff_size = 20,
-                                              default_paper_size = ('A5', 'portait'),)
+    sheetmusic_file = abjad.LilyPondFile.new(music = score, global_staff_size = 20, default_paper_size = ('A5', 'portait'),)
     
     # Add title, composer, etc. to the sheet
     sheetmusic_file.header_block.title = abjad.Markup('Prelude')
@@ -179,5 +185,5 @@ def ChopinPrelude20():
     sheetmusic_file.header_block.tagline = abjad.Markup('Written in Python using the Abjad library and Lilypond engraving software - Wesley Olsen')
     sheetmusic_file.header_block.subsubtitle = abjad.Markup('Op. 20 No. 28')
     
-#Create Lilypond file and .pdf
+    # Create Lilypond file and .pdf
     abjad.show(sheetmusic_file)
